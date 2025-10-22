@@ -1,7 +1,6 @@
-
 body {
   margin: 0;
-  background-color: black;
+  background-color: white;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -93,5 +92,3 @@ body {
   text-align: center;
   z-index: 3;
 }
-
-
