@@ -131,12 +131,12 @@ setInterval(() => {
   document.getElementById("headline").innerText = headlines[randomIndex(headlines)];
   document.getElementById("message").innerText = messages[randomIndex(messages)];
   document.getElementById("image").src = images1[randomIndex(images1)];
-}, 3000); // every 3 seconds
+ }, 3000); // every 3 seconds
 
 
 
-// Load external HTML into the overlay div
-fetch('../test/test.html')
+  // Load external HTML into the overlay div
+ fetch('../test/test.html')
   .then(response => response.text())
   .then(html => {
     document.getElementById('overlay-container').innerHTML = html;
@@ -154,3 +154,99 @@ fetch('../test/test.html')
   });
 });
 
+
+// spawn ephemeral popup images cycling through a random set of ~10 images
+
+(function () {
+  // sanitize and get 10 random distinct images from images1
+  function pickRandomN(arr, n) {
+    const clean = arr.map(s => (s || '').trim()).filter(Boolean);
+    // Fisher-Yates shuffle
+    for (let i = clean.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [clean[i], clean[j]] = [clean[j], clean[i]];
+    }
+    return clean.slice(0, Math.min(n, clean.length));
+  }
+
+  const pool = pickRandomN(images1, 10);
+  if (!pool.length) return;
+
+  let idx = 0;
+  const maxConcurrent = 5;
+  let active = 0;
+
+  function randPercent(margin = 6) {
+    return margin + Math.random() * (100 - margin * 2);
+  }
+
+  function spawnOne() {
+    if (active >= maxConcurrent) return scheduleNext();
+    const src = pool[idx];
+    idx = (idx + 1) % pool.length;
+
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'testimage';
+    img.style.left = randPercent(8) + '%';
+    img.style.top = randPercent(8) + '%';
+    // random visual size
+    img.style.maxWidth = (10 + Math.random() * 25) + 'vw';
+
+    document.body.appendChild(img);
+    // trigger transition
+    requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add('show')));
+    active++;
+
+    const visibleMs = 1200 + Math.random() * 2200; // 1.2s - 3.4s
+    setTimeout(() => {
+      img.classList.remove('show');
+      img.classList.add('hide');
+      setTimeout(() => {
+        if (img.parentNode) img.parentNode.removeChild(img);
+        active--;
+      }, 480); // allow hide transition
+    }, visibleMs);
+
+    scheduleNext();
+  }
+
+  function scheduleNext() {
+    const nextIn = 500 + Math.random() * 1300; // 0.5s - 1.8s
+    setTimeout(spawnOne, nextIn);
+  }
+
+  // start after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleNext);
+  } else {
+    scheduleNext();
+  }
+})();
+
+//random gif
+const imageFolder = 'gifs/'; // update to match your folder name
+const imageFiles = [
+  'references/loading.gif',
+  'references/mesmerising2.gif',
+  'references/error_.gif'
+]; // add all your image / gif files
+
+function spawnRandomImage() {
+  const img = document.createElement('img');
+  img.src = imageFolder + imageFiles[Math.floor(Math.random() * imageFiles.length)];
+
+  // Random positioning across the screen
+  img.style.left = Math.random() * 100 + "vw";
+  img.style.top = Math.random() * 100 + "vh";
+
+  document.getElementById('random-image-container').appendChild(img);
+
+  // Remove after animation completes
+  setTimeout(() => {
+    img.remove();
+  }, 6000); // matches animation duration
+}
+
+// Spawn a new image every 1.5 seconds
+setInterval(spawnRandomImage, 1500);

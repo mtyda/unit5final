@@ -46,6 +46,46 @@ const rightImage = document.querySelector(".right img");
 leftImage.src = randomItem(leftImages);
 rightImage.src = randomItem(rightImages);
 
+// ...existing code...
+(function () {
+  function buildGallery(id) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    const list = container.getAttribute('data-images') || '';
+    const files = list.split(',').map(s => s.trim()).filter(Boolean);
+    container.innerHTML = ''; // clear placeholder
+
+    // create img elements for each file
+    files.forEach((f, i) => {
+      const img = document.createElement('img');
+      img.src = f; // path relative to test.html
+      img.alt = `${id}-img-${i}`;
+      img.className = 'gallery-img';
+      // stack/positioning class can be controlled with CSS (e.g., show only first, or grid)
+      if (i !== 0) img.style.display = 'none';
+      container.appendChild(img);
+    });
+
+    // optional: simple next/prev controls to cycle images
+    if (files.length > 1) {
+      let current = 0;
+      const next = () => {
+        const imgs = container.querySelectorAll('img');
+        imgs[current].style.display = 'none';
+        current = (current + 1) % imgs.length;
+        imgs[current].style.display = '';
+      };
+      // auto-advance every 3s
+      setInterval(next, 3000);
+    }
+  }
+
+  // initialize both galleries
+  buildGallery('left-gallery');
+  buildGallery('right-gallery');
+})();
+ // ...existing code...
+
 // --- DIFFERENT REFRESH SPEEDS ---
 setInterval(() => {
   leftImage.src = randomItem(leftImages);

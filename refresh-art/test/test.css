@@ -5,8 +5,8 @@
 }
 
 body {
-  background-color: #000;
-  color: white;
+  background-color: rgba(205, 225, 231, 0);
+  color: rgb(3, 0, 0);
   font-family: 'Arial', sans-serif;
   height: 100vh;
   display: flex;
@@ -40,11 +40,16 @@ img {
   width: 100%;
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0);
   transition: opacity 1s ease; /* smooth fade transition */
 }
 
-
+/* ...existing code... */
+.gallery { position: relative; width: 100%; height: auto; overflow: hidden; }
+.gallery img { width: 100%; height: auto; display: block; position: absolute; left: 0; top: 0; }
+/* show first by default; JS hides others */
+.gallery img:first-child { position: static; display: block; }
+/* ...existing code... */
 
 
 

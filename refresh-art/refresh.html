@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Every Refresh is Different</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />  
+  <!-- Bring in the other folder’s styling and scripts -->
+ <link rel="stylesheet" href="refresh-art/test/test.css">
+ <script src="refresh-art/test/test.js"></script>
+
   <style>
    p{ background-image: url('references/IMG_3156.JPEG');
  
@@ -16,10 +20,15 @@
 
 
 
-
 <body>
 
   <div class="art-canvas">
+
+
+
+
+
+
 
     <!-- Central locked image -->
     <img src=  <div id="content">
@@ -36,15 +45,50 @@
     <!-- Floating gifs -->
     <img src="references/larger.GIF" alt="Glow Effect" class="gif top-left">
     <img src="references/smaller.GIF" alt="Spark Effect" class="gif bottom-right">
+    <txt src="references/glitch 2.gif" alt="Glitch Effect" class="gif top-right">
+    <img src="references/personwalk.GIF" alt="Glow Effect" class="gif bottom-left">
+    <img src="references/error_.gif" alt="Glow Effect" class="gif center">
+    
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </iframe>
 
     <!-- Optional titles or text -->
-    <div class="caption"></div>
+    <div class=""></div>
 
   </div>
 
-  
+ <!--random gifs --> 
+   <div id="random-image-container"></div>
+
+
+
+
+    <!-- add this just before </body> -->
+    <script>
+    // reload every 5000 ms (5 seconds)
+    setInterval(() => location.reload(), 7000);
+    </script>
+
 
 
 </body>
@@ -53,6 +97,3 @@
 
 <script src="refresh.js"></script>
 
-<!-- Bring in the other folder’s styling and scripts -->
-<link rel="stylesheet" href="../test/test.css">
-<script src="../test/test.js"></script>
